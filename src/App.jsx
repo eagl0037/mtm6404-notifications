@@ -1,34 +1,74 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React, { useState } from 'react'
+import notificationsData from './notifications'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function Notification({ id, name, message, onClear }) {
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div style={{
+      border: '1px solid gray',
+      padding: '1rem',
+      marginBottom: '0.5rem',
+      borderRadius: '8px',
+      background: '#222',
+      color: '#eee'
+    }}>
+      <strong>{name}</strong>
+      <p>{message}</p>
+      <button onClick={() => onClear(id)} style={{
+        padding: '0.4rem 0.8rem',
+        borderRadius: '6px',
+        border: 'none',
+        cursor: 'pointer',
+        backgroundColor: '#646cff',
+        color: 'white'
+      }}>
+        Clear
+      </button>
     </div>
   )
 }
 
-export default App
+export default function App() {
+  const [notifications, setNotifications] = useState(notificationsData)
+
+  function clearNotification(id) {
+    setNotifications(notifications.filter(n => n.id !== id))
+  }
+
+  function clearAll() {
+    setNotifications([])
+  }
+
+  return (
+    <div style={{
+      maxWidth: 600,
+      margin: '2rem auto',
+      fontFamily: 'Arial, sans-serif',
+      color: '#eee',
+      backgroundColor: '#121212',
+      padding: '1rem',
+      borderRadius: '8px'
+    }}>
+      <h1>Notifications ({notifications.length})</h1>
+      {notifications.length > 0 ? (
+        <>
+          {notifications.map(n => (
+            <Notification key={n.id} {...n} onClear={clearNotification} />
+          ))}
+          <button onClick={clearAll} style={{
+            marginTop: '1rem',
+            padding: '0.5rem 1rem',
+            borderRadius: '8px',
+            backgroundColor: '#ff4d4d',
+            border: 'none',
+            color: 'white',
+            cursor: 'pointer'
+          }}>
+            Clear All
+          </button>
+        </>
+      ) : (
+        <p>No notifications</p>
+      )}
+    </div>
+  )
+}
