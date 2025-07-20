@@ -45,6 +45,9 @@ Open your browser and go to:
 
 
 http://localhost:5173
+or http://localhost:5174/mtm6404-notifications/
+or if your vite.config.js has a base path set:
+http://localhost:5173/mtm6404-notifications/
 Build for Production
 To build the project for production, run:
 
