@@ -28,6 +28,8 @@ function Notification({ id, name, message, onClear }) {
 }
 
 export default function App() {
+  console.log("✅ App component loaded"); // ✅ Debug line
+
   const [notifications, setNotifications] = useState(notificationsData)
 
   function clearNotification(id) {
